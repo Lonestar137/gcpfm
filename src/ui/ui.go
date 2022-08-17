@@ -4,7 +4,6 @@ import (
 	//lib "charmlab/lib"
 	"fmt"
 	"os"
-	"strings"
 
 	//kv store
 
@@ -55,7 +54,7 @@ func (m model) View() string {
 	return docStyle.Render(m.list.View())
 }
 
-func Home(filteredList []string) {
+func Home(title string, filteredList []string) {
 
 	items := []list.Item{}
 
@@ -64,8 +63,7 @@ func Home(filteredList []string) {
 	}
 
 	m := model{list: list.New(items, list.NewDefaultDelegate(), 0, 0)}
-	var bucketName string = strings.Split(filteredList[0], "/")[2]
-	m.list.Title = bucketName
+	m.list.Title = title
 
 	p := tea.NewProgram(m, tea.WithAltScreen())
 

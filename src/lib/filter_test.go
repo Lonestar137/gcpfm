@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"os/exec"
 	"testing"
 )
 
@@ -39,7 +40,7 @@ func TestFilter(t *testing.T) {
 	var filteredFolders []string = Filter(completeFolderRegex, sampleFolderData)
 
 	if len(filteredFolders) != 6 {
-		t.Errorf("got %d, want %d", len(filteredFolders), 6)
+		t.Errorf("Filter did not find files, got %d, want %d", len(filteredFolders), 6)
 	}
 
 	var unhappyFolder string = "xxxxx"
@@ -48,7 +49,17 @@ func TestFilter(t *testing.T) {
 	var unhappyFilteredFolders []string = Filter(unhappyCompleteFolderRegex, sampleFolderData)
 
 	if len(unhappyFilteredFolders) != 0 {
-		t.Errorf("got %d, want %d", len(unhappyFilteredFolders), 0)
+		t.Errorf("Filter did not filter out unwanted files, got %d, want %d", len(unhappyFilteredFolders), 0)
+	}
+}
+
+func TestParseCmdOutput(t *testing.T) {
+	cmd, _ := exec.Command("ls", "/").Output()
+
+	var result []string = ParseCmdOutput(cmd)
+
+	if result[0] != "bin" || result[5] != "home" {
+		t.Errorf("ParseCmdOutput did not correctly format command output, got %s and %s, want bin and home", result[0], result[5])
 	}
 
 }

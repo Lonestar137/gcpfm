@@ -1,6 +1,9 @@
 package lib
 
-import "regexp"
+import (
+	"regexp"
+	"strings"
+)
 
 func Filter(regexToMatchAgainst string, lsCommandOutput []string) []string {
 	// NOTES: isn't it sorted by default? Maybe use a better search alg
@@ -22,9 +25,14 @@ func Filter(regexToMatchAgainst string, lsCommandOutput []string) []string {
 	return filteredList
 }
 
-// type model FolderStack(folderName: list)
-// func StackFolderPop(folderName: string) list {}
-// func StackFolderPush(folderName: string) list {}
+func ParseCmdOutput(cmdOutput []byte) []string {
+	var cmdOutputAsString string = string(cmdOutput)
+	var parsedCmdOutput []string
+
+	parsedCmdOutput = strings.Split(cmdOutputAsString, "\n")
+
+	return parsedCmdOutput
+}
 
 // quick searches from stack root
 //func SearchFolder(lsCommandOutput: string) string {}

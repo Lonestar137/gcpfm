@@ -1,16 +1,40 @@
 package main
 
 import (
+	"log"
+	"os/exec"
+	"strings"
+
+	"github.com/lonestar137/gcpfm/src/lib"
 	"github.com/lonestar137/gcpfm/src/ui"
 )
-
-//"os/exec"
 
 // Goal: make GCP ranger like filemanager, objective is to make GCP faster to navigate and use.
 // You can press y on any dir/file and it will close the program and print the path to console.
 
+func ShowAvailBuckets() string {
+	//var cmd = "gsutil ls"
+	//availBucketsOutput, err := exec.Command(cmd).Output()
+
+	availBucketsOutput, err := exec.Command("ls", "-la").Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	var parsedBucketsOutput = lib.ParseCmdOutput(availBucketsOutput)
+	ui.Home("Available buckets", parsedBucketsOutput)
+
+	// TODO Asap, have Home return the selection on Enter as a string, kills two birds with one stone.
+
+	return "ui.Home output here"
+
+}
+
 func main() {
 
+	// TODO Asap2, assign this to a value, and pass it to the exec command for the bucket.
+	ShowAvailBuckets()
+
+	// TODO get the data from gsutil
 	//var bucketpath string = ""
 	//var cmd = "gsutil ls -R \"" + bucketpath + "\""
 	//exec.Command(cmd)
@@ -44,5 +68,7 @@ func main() {
 		"gcs://sample-bucket/config/Code/CachedData/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5/chrome/js/index-dir",
 	}
 
-	ui.Home(sampleFolderData)
+	var bucketName string = strings.Split(sampleFolderData[0], "/")[2]
+	ui.Home(bucketName, sampleFolderData)
+	// TODO asap3, fmt.Println(ui.Home) to print out the result of your selection.
 }
