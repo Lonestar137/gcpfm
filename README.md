@@ -12,6 +12,10 @@ The solution:
 GCPFM attempts to speed up navigating buckets in GCP by providing a fast and intuitive TUI.  Users can quickly open a GCP bucket and start browsing the bucket using the built-in fuzzy finder.  GCPFM handles background updates so you don't have to wait for GCP to update the bucket taxonomy when you or someone makes a change.
 
 
+## Future features  
+
+- Folder taxonomy schema validation using a YAML file.
+
 ## Installation  
 
 Coming soon!
